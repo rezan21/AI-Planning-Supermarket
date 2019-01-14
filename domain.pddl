@@ -23,11 +23,38 @@
 
 )
 
-(:durative-action load
+(:durative-action pick
 :parameters (?i - item ?a - agent ?l - location)
 :duration (= ?duration 5)
 :condition(
-(and(over all(at ?i ?l))(at start(i)))
+and(over all(at ?a ?l)) (at start(at ?i ?l))
 )
+:effect(and (at start(notat ?i ?l)) (at end(on ?i ?a)))
 )
+
+(:durative-action move
+:parameters (?a - agent ?from - location ?to - location)
+:duration(= ?duration 10)
+:condition(at start(at ?a ?from))
+:effect(at start(notat ?a ?from))
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 )
