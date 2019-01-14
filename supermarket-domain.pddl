@@ -21,7 +21,7 @@
 
 (:durative-action pick
 :parameters (?i - item ?a - agent ?l - location)
-:duration (= ?duration 5)
+:duration (= ?duration 100)
 :condition(
 and(over all(at ?a ?l)) (at start(at ?i ?l))
 )
@@ -30,7 +30,7 @@ and(over all(at ?a ?l)) (at start(at ?i ?l))
 
 (:durative-action drop
 :parameters (?i - item ?a - agent ?l - location)
-:duration (= ?duration 5)
+:duration (= ?duration 100)
 :condition(and(over all(at ?a ?l)) (at start(on ?i ?a))
 )
 :effect(and (at start(not (on ?i ?a))) (at end(at ?i ?l)))
