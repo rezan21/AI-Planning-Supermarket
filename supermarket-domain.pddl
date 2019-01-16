@@ -4,6 +4,10 @@
   location agent item - object
 
 )
+
+(:functions
+(capacity ?a - agent)
+)
 (:predicates
 (at ?o - object ?l - location)
 ;(notat ?a - agent ?l - location)
@@ -22,8 +26,7 @@
 (:durative-action pick
 :parameters (?i - item ?a - agent ?l - location)
 :duration (= ?duration 100)
-:condition(
-and(over all(at ?a ?l)) (at start(at ?i ?l))
+:condition(and(over all(at ?a ?l)) (at start(at ?i ?l)) (at start <(capacity ?a) 2)
 )
 :effect(and (at start(not (at ?i ?l))) (at end(on ?i ?a)))
 )
