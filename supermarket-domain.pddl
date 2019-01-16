@@ -2,24 +2,18 @@
 (:requirements :strips :typing :numeric-fluents :durative-actions :conditional-effects)
 (:types
   location agent item - object
-
 )
 
 (:functions
-(numberofcarrings ?a - agent)
-(capacity ?a - agent)
+  (numberofcarrings ?a - agent)
+  (capacity ?a - agent)
 )
-(:predicates
-(at ?o - object ?l - location)
-;(notat ?a - agent ?l - location)
-;(agentfree ?a - agent)
-;(agentnotfree ?a - agent)
-;(agentfull ?a - agent)
-;(agentnotfull ?a -agent)
-(on ?i - item ?a - agent)
-;(noton ?i - item ?a - agent)
-(haspath ?from - location ?to - location)
 
+(:predicates
+  (at ?o - object ?l - location)
+  ;(agentfree ?a - agent)
+  (on ?i - item ?a - agent)
+  (haspath ?from - location ?to - location)
 )
 
 (:durative-action pick
