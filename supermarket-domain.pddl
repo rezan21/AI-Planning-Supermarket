@@ -22,18 +22,21 @@
 
 )
 
-
 (:durative-action pick
 :parameters (?i - item ?a - agent ?l - location)
-:duration (= ?duration 100)
-:condition(and(over all(at ?a ?l)) (at start(at ?i ?l)) (at start <(capacity ?a) 2) (<(numberofcarrings ?a)(capacity ?a))
+:duration (= ?duration 2)
+:condition(and
+(over all(at ?a ?l))
+(at start(at ?i ?l))
+(at start(< (numberofcarrings ?a)(capacity ?a)))
 )
-:effect(and (at start(not (at ?i ?l))) (at end(on ?i ?a)) (at end(increase (numberofcarrings ?a) 1))  )
+
+:effect(and (at start(not (at ?i ?l))) (at end(on ?i ?a)) (at start(increase (numberofcarrings ?a) 1))  )
 )
 
 (:durative-action drop
 :parameters (?i - item ?a - agent ?l - location)
-:duration (= ?duration 100)
+:duration (= ?duration 2)
 :condition(and(over all(at ?a ?l)) (at start(on ?i ?a))
 )
 :effect(and (at start(not (on ?i ?a))) (at end(at ?i ?l)) (at end(decrease (numberofcarrings) 1)))
@@ -47,6 +50,11 @@
 
 )
 
+(:durative-action
+
+
+
+)
 
 
 
