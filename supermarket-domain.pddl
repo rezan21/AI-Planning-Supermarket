@@ -1,7 +1,7 @@
 (define (domain simple-supermarket)
 (:requirements :strips :typing :numeric-fluents :durative-actions :conditional-effects)
 (:types
-  location agent item - object
+  car location agent item - object
 )
 
 (:functions
@@ -13,6 +13,7 @@
   (at ?o - object ?l - location)
   ;(agentfree ?a - agent)
   (on ?i - item ?a - agent)
+  (hasagent ?c - car)
   (haspath ?from - location ?to - location)
 )
 
@@ -53,6 +54,20 @@
 :condition(and
 (at start(at ?a ?from))
 (over all(haspath ?from ?to))
+)
+:effect(and
+(at start(not(at ?a ?from)) )
+(at end(at ?a ?to))
+)
+
+(:durative-action getoncar
+:parameters (?a - agent ?c - car ?l - location)
+:duration(= ?duration 5)
+:condition(and
+(at start(not(hasagent ?c))  )
+(over all(at ?a ?l))
+(over all(at ?c ?l))
+
 )
 :effect(and
 (at start(not(at ?a ?from)) )
