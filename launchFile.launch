@@ -98,7 +98,7 @@
 		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
 	</node>
 
-	<node name="rosplan_interface_getoffcar" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+<node name="rosplan_interface_getoffcar" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
 		<param name="knowledge_base" value="rosplan_knowledge_base"/>
 		<param name="pddl_action_name" value="getoffcar"/>
 		<param name="action_duration" value="0.0"/>
@@ -106,6 +106,8 @@
 		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
 		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
 	</node>
+
+
 
 
 </launch>

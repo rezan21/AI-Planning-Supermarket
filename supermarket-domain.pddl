@@ -41,7 +41,7 @@
 (at start(on ?i ?a) )
 )
 :effect(and
-(at start(decrease (numberofcarrings) 1)  )
+(at start(decrease (numberofcarrings ?a) 1)  )
 (at start(not (on ?i ?a)) )
 (at end(at ?i ?l))
 )
@@ -76,7 +76,20 @@
 (at end(hasagent ?c))
 (at end(not(hasnotagent ?c)))
 )
+)
 
+(:durative-action getoffcar
+:parameters (?a - agent ?c - car ?l - location)
+:duration(= ?duration 5)
+:condition(and
+(at start(hasagent ?c))
+(over all(at ?c ?l))
+)
+:effect(and
+(at end(at ?a ?l) )
+(at end(hasnotagent ?c))
+(at end(not(hasagent ?c)))
+)
 )
 
 
