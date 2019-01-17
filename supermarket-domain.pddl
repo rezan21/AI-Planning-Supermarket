@@ -12,7 +12,6 @@
 (:predicates
   (at ?o - object ?l - location)
   (on ?i - item ?a - agent)
-  (agentoncar ?a ?c )
   (hasagent ?c - car)
   (hasnotagent ?c - car)
   (haspath ?from - location ?to - location)
@@ -49,7 +48,7 @@
 
 )
 
-(:durative-action move
+(:durative-action movecar
 :parameters (?c - car ?from - location ?to - location)
 :duration(= ?duration 10)
 :condition(and
@@ -61,42 +60,25 @@
 (at start(not(at ?c ?from)) )
 (at end(at ?c ?to))
 )
+)
 
 (:durative-action getoncar
 :parameters (?a - agent ?c - car ?l - location)
 :duration(= ?duration 5)
 :condition(and
-;at start has no driver or over all?
-(at start((hasnotagent ?c))  )
+;hasnotagent over all or at start
+(at start(hasnotagent ?c))
 (at start(at ?a ?l))
 (over all(at ?c ?l))
-
 )
 :effect(and
 (at start(not(at ?a ?l)) )
-(at end(agentoncar ?a ?c))
 (at end(hasagent ?c))
 (at end(not(hasnotagent ?c)))
 )
 
 )
 
-(:durative-action getoffcar
-:parameters (?a - agent ?c - car ?l - location)
-:duration(= ?duration 5)
-:condition(and
-(at start(agentoncar ?a ?c))
-(over all(at ?c ?l))
-
-)
-:effect(and
-(at start(not(hasagent? c)) )
-(at start(hasnotagent ?c))
-(at start(not(agentoncar ?a ?c)))
-(at end(at ?a ?l))
-)
-
-)
 
 
 
