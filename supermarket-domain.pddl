@@ -15,6 +15,7 @@
   (hasagent ?c - car)
   (hasnotagent ?c - car)
   (haspath ?from - location ?to - location)
+  (oncar ?a - agent ?c - car)
 )
 
 (:durative-action pick
@@ -75,6 +76,7 @@
 (at start(not(at ?a ?l)) )
 (at end(hasagent ?c))
 (at end(not(hasnotagent ?c)))
+(at end(oncar ?a ?c))
 )
 )
 
@@ -82,13 +84,14 @@
 :parameters (?a - agent ?c - car ?l - location)
 :duration(= ?duration 5)
 :condition(and
-(at start(hasagent ?c))
+(at start(oncar ?a ?c))
 (over all(at ?c ?l))
 )
 :effect(and
 (at end(at ?a ?l) )
 (at end(hasnotagent ?c))
 (at end(not(hasagent ?c)))
+(at end(not(oncar ?a ?c)))
 )
 )
 
