@@ -50,15 +50,16 @@
 )
 
 (:durative-action move
-:parameters (?a - agent ?from - location ?to - location)
+:parameters (?c - car ?from - location ?to - location)
 :duration(= ?duration 10)
 :condition(and
-(at start(at ?a ?from))
+(at start(at ?c ?from))
 (over all(haspath ?from ?to))
+(over all(hasagent ?c))
 )
 :effect(and
-(at start(not(at ?a ?from)) )
-(at end(at ?a ?to))
+(at start(not(at ?c ?from)) )
+(at end(at ?c ?to))
 )
 
 (:durative-action getoncar
