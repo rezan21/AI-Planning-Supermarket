@@ -7,6 +7,7 @@
 (:functions
   (numberofcarrings ?a - agent)
   (capacity ?a - agent)
+  (distancetime ?from - location ?to - location)
 )
 
 (:predicates
@@ -51,15 +52,29 @@
 
 (:durative-action movecar
 :parameters (?c - car ?from - location ?to - location)
-:duration(= ?duration 10)
+:duration(= ?duration (distancetime ?from ?to))
 :condition(and
 (at start(at ?c ?from))
 (over all(haspath ?from ?to))
 (over all(hasagent ?c))
+
 )
 :effect(and
 (at start(not(at ?c ?from)) )
 (at end(at ?c ?to))
+)
+)
+
+(:durative-action walk
+:parameters (?a - agent ?from - location ?to - location)
+:duration(= ?duration (* 3 (distancetime ?from ?to)))
+:condition(and
+(at start(at ?a ?from))
+
+)
+:effect(and
+(at start(not(at ?a ?from)) )
+(at end(at ?a ?to))
 )
 )
 
@@ -68,7 +83,7 @@
 :duration(= ?duration 5)
 :condition(and
 ;hasnotagent over all or at start
-(at start(hasnotagent ?c))
+(over all(hasnotagent ?c))
 (at start(at ?a ?l))
 (over all(at ?c ?l))
 )

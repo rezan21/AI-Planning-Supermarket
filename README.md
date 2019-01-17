@@ -11,7 +11,10 @@ durative actions used in the domain:
 
 - ```durative-action drop```: the agent can drop the items at a location and this result in decreasing the number of items they are carrying.
 
-- ```durative-action movecar```: the agent can move from a point to another with a car once they get on the car.
+- ```durative-action movecar```: the agent can move from a point to another with a car.
+
+- ```durative-action walk```: the agent can get walk around.
+
 
 - ```durative-action getoncar```: the agent can get on a car if there is no other agent on it.
 
