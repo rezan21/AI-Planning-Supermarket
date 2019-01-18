@@ -1,0 +1,113 @@
+<launch>
+
+	<arg name="domain" default="$(find explainable_planning)/common/supermarket-domain.pddl"/>
+
+	<!-- scene database (MongoDB) -->
+
+	<include file="$(find mongodb_store)/launch/mongodb_store.launch">
+		<arg name="db_path" value="$(find rosplan_knowledge_base)/common/mongoDB/"/>
+	</include>
+
+	<!-- knowledge base -->
+
+	<node name="rosplan_knowledge_base" pkg="rosplan_knowledge_base" type="knowledgeBase" respawn="false" output="screen">
+		<param name="domain_path" value="$(arg domain)"/>
+		<!-- change problem here -->
+		<param name="problem_path" value="$(find explainable_planning)/common/complex-supermarket-problem.pddl"/>
+		<param name="database_path" value="$(find rosplan_knowledge_base)/common/mongoDB/"/>
+		<!-- conditional planning flags -->
+		<param name="use_unknowns" value="False"/>
+	</node>
+
+	<!-- problem generation -->
+
+	<node name="rosplan_problem_interface" pkg="rosplan_planning_system" type="problemInterface" respawn="false" output="screen">
+		<param name="domain_path" value="$(arg domain)"/>
+		<param name="problem_path" value="$(find rosplan_planning_system)/common/problem.pddl"/>
+		<param name="problem_topic" value="problem_instance"/>
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+	</node>
+
+	<!-- planning system -->
+
+	<node name="rosplan_planner_interface" pkg="rosplan_planning_system" type="popf_planner_interface" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<!-- general options -->
+		<param name="use_problem_topic" value="true"/>
+		<!-- ros topics -->
+		<param name="problem_topic" value="/rosplan_problem_interface/problem_instance"/>
+		<param name="planner_topic" value="planner_output"/>
+		<!-- directory for files -->
+		<param name="domain_path" value="$(arg domain)"/>
+		<param name="problem_path" value="$(find rosplan_planning_system)/common/problem.pddl"/>
+		<param name="data_path" value="$(find rosplan_planning_system)/common/"/>
+		<!-- to run the planner -->
+		<param name="planner_command" value="$(find rosplan_planning_system)/common/bin/popf DOMAIN PROBLEM"/>
+	</node>
+
+	<!-- plan parsing -->
+	<node name="rosplan_parsing_interface" pkg="rosplan_planning_system" type="pddl_simple_plan_parser" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="planner_topic" value="/rosplan_planner_interface/planner_output"/>
+		<param name="plan_topic" value="complete_plan"/>
+	</node>
+
+	<!-- plan explanation -->
+	<node name="rosplan_plan_explainer" pkg="explainable_planning" type="rpexplainer" respawn="false" output="screen">
+		<param name="plan_topic" value="/rosplan_parsing_interface/complete_plan"/>
+		<param name="action_dispatch_topic" value="action_dispatch"/>
+		<param name="action_feedback_topic" value="action_feedback"/>
+	</node>
+
+	<!-- sim actions -->
+	<!-- change actions here -->
+
+	<node name="rosplan_interface_pick" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="pddl_action_name" value="pick"/>
+		<param name="action_duration" value="0.0"/>
+		<param name="action_probability" value="1.0"/>
+		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
+		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
+	</node>
+
+  <node name="rosplan_interface_drop" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="pddl_action_name" value="drop"/>
+		<param name="action_duration" value="0.0"/>
+		<param name="action_probability" value="1.0"/>
+		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
+		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
+	</node>
+
+  <node name="rosplan_interface_movecar" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="pddl_action_name" value="movecar"/>
+		<param name="action_duration" value="0.0"/>
+		<param name="action_probability" value="1.0"/>
+		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
+		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
+	</node>
+
+	<node name="rosplan_interface_getoncar" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="pddl_action_name" value="getoncar"/>
+		<param name="action_duration" value="0.0"/>
+		<param name="action_probability" value="1.0"/>
+		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
+		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
+	</node>
+
+<node name="rosplan_interface_getoffcar" pkg="rosplan_planning_system" type="simulatedAction" respawn="false" output="screen">
+		<param name="knowledge_base" value="rosplan_knowledge_base"/>
+		<param name="pddl_action_name" value="getoffcar"/>
+		<param name="action_duration" value="0.0"/>
+		<param name="action_probability" value="1.0"/>
+		<param name="action_dispatch_topic" value="/rosplan_plan_explainer/action_dispatch"/>
+		<param name="action_feedback_topic" value="/rosplan_plan_explainer/action_feedback"/>
+	</node>
+
+
+
+
+</launch>
