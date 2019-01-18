@@ -17,20 +17,27 @@
   (hasnotagent ?c - car)
   (haspath ?from - location ?to - location)
   (oncar ?a - agent ?c - car)
+  (busy ?a - agent)
+  (notbusy ?a - agent)
 )
 
 (:durative-action pick
 :parameters (?i - item ?a - agent ?l - location)
 :duration (= ?duration 2)
 :condition(and
+(at start(notbusy ?a))
 (over all(at ?a ?l) )
 (at start(at ?i ?l) )
 (at start(< (numberofcarrings ?a)(capacity ?a)) )
 )
 :effect(and
+(at start(busy ?a))
+(at start(not(notbusy ?a)))
 (at start(increase (numberofcarrings ?a) 1) )
 (at start(not (at ?i ?l)) )
 (at end(on ?i ?a) )
+(at end(notbusy ?a))
+(at end(not(busy ?a)))
 )
 
 )
@@ -39,13 +46,18 @@
 :parameters (?i - item ?a - agent ?l - location)
 :duration (= ?duration 2)
 :condition(and
+(at start(notbusy ?a))
 (over all(at ?a ?l) )
 (at start(on ?i ?a) )
 )
 :effect(and
+(at start(busy ?a))
+(at start(not(notbusy ?a)))
 (at start(decrease (numberofcarrings ?a) 1)  )
 (at start(not (on ?i ?a)) )
 (at end(at ?i ?l))
+(at end(notbusy ?a))
+(at end(not(busy ?a)))
 )
 
 )

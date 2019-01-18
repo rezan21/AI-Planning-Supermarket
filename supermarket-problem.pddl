@@ -37,7 +37,8 @@ c1 - car
 
 
 (hasnotagent c1)
-
+(notbusy a1)
+(notbusy a2)
 
 (haspath x1 x2)
 (haspath x2 x1)
